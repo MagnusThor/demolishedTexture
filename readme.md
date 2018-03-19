@@ -1,9 +1,10 @@
 # demolishedTexture
 
+Generate procedural textures in GLSL-Shader way. Use with demolished or standaone
 
-## install
+## Install using NPM
 
-    npm i demolishedTexture
+    N/A 
 
 ## Example ( Javascript )
 
@@ -16,6 +17,9 @@
        return [r, g, b];
     });
 
+
+See /example/index.html for a tiny example
+
 ## Example ( Typescript)
 
-
+    N/A
