@@ -11,6 +11,25 @@ Generate procedural textures in GLSL-Shader way. Use with demolished or standaon
 Dump of .ts.d files.
 
 
+    declare class ShaderBase {
+        perm: Array<number>;
+        constructor();
+        normalize(a: Array<number>): Array<number>;
+        abs(a: Array<number>): Array<number>;
+        calc(a: Array<number>, exp: Function): void;
+        toScale(v: any, w: any): number;
+        dot(a: Array<number>, b: Array<number>): number;
+        gain(a: number, b: number): number;
+        length(a: Array<number>): number;
+        fade(t: number): number;
+        lerp(t: number, a: number, b: number): number;
+        grad(hash: number, x: number, y: number, z: number): number;
+        scale(n: number): number;
+        seed(n: number): Array<number>;
+        noise(x: number, y: number, z: number): number;
+}
+
+
     declare class DemolishedTextureGen {
         width: number;
         height: number;
@@ -24,15 +43,6 @@ Dump of .ts.d files.
         toBase64(): string;
 }
 
-
-
-    declare class ShaderBase {
-        fade(t: number): number;
-        lerp(t: number, a: number, b: number): number;
-        grad(hash: number, x: number, y: number, z: number): number;
-        scale(n: number): number;
-        noise(x: number, y: number, z: number): number;
-}
 
 ## Write a texture
 
@@ -59,4 +69,6 @@ Like in a "shader" the generator calles the "callback" function (fn) provided to
     });
 
 
-See /example/index.html for a tiny example
+# Links
+
+https://magnusthor.github.io/demolishedTexture/example/index.html 

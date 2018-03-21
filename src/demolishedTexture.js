@@ -11,8 +11,21 @@ var ShaderBase = (function () {
         }
         return a;
     };
+    ShaderBase.prototype.abs = function (a) {
+        return a.map(function (v, i) { return Math.abs(v); });
+    };
+    ShaderBase.prototype.calc = function (a, exp) { };
+    ShaderBase.prototype.toScale = function (v, w) {
+        var a = 0, b = w, c = -1, d = 1.;
+        return (v - a) / (b - a) * (d - c) + c;
+    };
+    ;
     ShaderBase.prototype.dot = function (a, b) {
         return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    };
+    ShaderBase.prototype.gain = function (a, b) {
+        var c = Math.log(1 - b);
+        return .001 > a ? 0 : .999 < a ? 1 : .5 > a ? Math.pow(2 * a, c) / 2 : 1 - Math.pow(2 * (1 - a), c) / 2;
     };
     ShaderBase.prototype.length = function (a) {
         return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);

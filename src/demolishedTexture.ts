@@ -1,22 +1,33 @@
 
 class ShaderBase {
-    perm :Array<number>;
-    constructor(){
+    perm: Array<number>;
+    constructor() {
         this.perm = this.seed(255);
     }
-    normalize(a:Array<number>):Array<number> {
+    normalize(a: Array<number>): Array<number> {
         let l = this.length(a);
         if (l != 0) {
             a[0] /= l;
             a[1] /= l;
             a[2] /= l;
-        } 
+        }
         return a;
     }
-    dot(a:Array<number>,b:Array<number>):number {
+    abs(a: Array<number>): Array<number> {
+        return a.map((v, i) => { return Math.abs(v) });
+    }
+    calc(a: Array<number>, exp: Function) { }
+    toScale(v, w) {
+        var a = 0, b = w, c = -1, d = 1.;
+        return (v - a) / (b - a) * (d - c) + c;
+    };
+    dot(a: Array<number>, b: Array<number>): number {
         return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
     }
-    length(a:Array<number>):number{
+    gain(a: number, b: number): number {
+        var c = Math.log(1 - b); return .001 > a ? 0 : .999 < a ? 1 : .5 > a ? Math.pow(2 * a, c) / 2 : 1 - Math.pow(2 * (1 - a), c) / 2;
+    }
+    length(a: Array<number>): number {
         return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
     }
     fade(t: number): number {
@@ -30,19 +41,19 @@ class ShaderBase {
         return ((h & 1) == 0 ? u : -u) + ((h & 2) == 0 ? v : -v);
     }
     scale(n: number): number { return (1 + n) / 2; }
-    seed(n:number):Array<number>{
+    seed(n: number): Array<number> {
         var p = [];
-        for (var a = [], b = 0;n >= b; b++)a.push(b);
+        for (var a = [], b = 0; n >= b; b++)a.push(b);
         for (b = 0; n >= b; b++) {
             var c = n * Math.random(),
-             d = a[~~c]; a.splice(c, 1, a[b]); a.splice(b, 1, d);
-         };
-         for (var i = 0; i < n; i++) p[n + i] = p[i] = a[i];
-         return p;
+                d = a[~~c]; a.splice(c, 1, a[b]); a.splice(b, 1, d);
+        };
+        for (var i = 0; i < n; i++) p[n + i] = p[i] = a[i];
+        return p;
     }
     noise(x: number, y: number, z: number): number {
         let t = this;
-        let p = this.perm; 
+        let p = this.perm;
         let X = ~~(x) & 255,
             Y = ~~(y) & 255,
             Z = ~~(z) & 255;
