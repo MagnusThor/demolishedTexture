@@ -16,16 +16,15 @@ class ShaderBase {
     abs(a: Array<number>): Array<number> {
         return a.map((v, i) => { return Math.abs(v) });
     }
-    calc(a: Array<number>, exp: Function) { }
+    func(a: Array<number>, exp: Function) {
+        return a.map((v, i) => exp(v,i) );
+    }
     toScale(v, w) {
         var a = 0, b = w, c = -1, d = 1.;
         return (v - a) / (b - a) * (d - c) + c;
     };
     dot(a: Array<number>, b: Array<number>): number {
         return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-    }
-    gain(a: number, b: number): number {
-        var c = Math.log(1 - b); return .001 > a ? 0 : .999 < a ? 1 : .5 > a ? Math.pow(2 * a, c) / 2 : 1 - Math.pow(2 * (1 - a), c) / 2;
     }
     length(a: Array<number>): number {
         return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
