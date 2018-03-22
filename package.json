@@ -1,5 +1,5 @@
 {
-  "name": "demolishedTexture",
+  "name": "demolishedtexture",
   "version": "1.0.0",
   "description": "Procedual texture generator for Demolished and others. Renders base64 strings and/or binary",
   "main": "index.js",
