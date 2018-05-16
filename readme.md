@@ -1,33 +1,17 @@
 # demolishedTexture
 
-Generate procedural textures in GLSL-Shader way. Use with demolished or standaone
+Generate procedural textures in GLSL-Shader way or use plain vanilla Canvas API's
 
 ## Install using NPM
 
-    N/A 
+    npm install ......
 
 ## Documentation
 
 Dump of .ts.d files.
 
 
-    declare class ShaderBase {
-        perm: Array<number>;
-        constructor();
-        normalize(a: Array<number>): Array<number>;
-        abs(a: Array<number>): Array<number>;
-        calc(a: Array<number>, exp: Function): void;
-        toScale(v: any, w: any): number;
-        dot(a: Array<number>, b: Array<number>): number;
-        gain(a: number, b: number): number;
-        length(a: Array<number>): number;
-        fade(t: number): number;
-        lerp(t: number, a: number, b: number): number;
-        grad(hash: number, x: number, y: number, z: number): number;
-        scale(n: number): number;
-        seed(n: number): Array<number>;
-        noise(x: number, y: number, z: number): number;
-}
+
 
 
     declare class DemolishedTextureGen {

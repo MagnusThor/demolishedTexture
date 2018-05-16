@@ -1,17 +1,16 @@
 
-class ShaderBase {
+
+export class TextureBase {
     perm: Array<number>;
     constructor() {
         this.perm = this.seed(255);
     }
     normalize(a: Array<number>): Array<number> {
         let l = this.length(a);
-        if (l != 0) {
-            a[0] /= l;
-            a[1] /= l;
-            a[2] /= l;
-        }
-        return a;
+        l != 0 ? a =  this.func(a, function(v,i) {
+            return v / l;
+        } ) : a = a;
+        return a;         
     }
     abs(a: Array<number>): Array<number> {
         return a.map((v, i) => { return Math.abs(v) });
@@ -49,7 +48,7 @@ class ShaderBase {
         };
         for (var i = 0; i < n; i++) p[n + i] = p[i] = a[i];
         return p;
-    }
+     }
     noise(x: number, y: number, z: number): number {
         let t = this;
         let p = this.perm;
@@ -62,8 +61,9 @@ class ShaderBase {
         let u = t.fade(x),
             v = t.fade(y),
             w = t.fade(z);
-        let A = p[X] + Y, AA = p[A] + Z, AB = p[A + 1] + Z,
-            B = p[X + 1] + Y, BA = p[B] + Z, BB = p[B + 1] + Z;
+        
+            let A = p[X] + Y, AA = p[A] + Z, AB = p[A + 1] + Z,
+            B = p[X + 1] + Y, BA = p[B] + Z, BB = p[B + 1] + Z;       
         return t.scale(t.lerp(w, t.lerp(v, t.lerp(u, t.grad(p[AA], x, y, z),
             t.grad(p[BA], x - 1, y, z)),
             t.lerp(u, t.grad(p[AB], x, y - 1, z),
@@ -74,10 +74,10 @@ class ShaderBase {
                     t.grad(p[BB + 1], x - 1, y - 1, z - 1)))));
     }
 }
-class DemolishedTextureGen {
-    public ctx: CanvasRenderingContext2D
-    private buffer: ImageData;
-    private helpers: ShaderBase;
+export class DemolishedTextureGen {
+    ctx: CanvasRenderingContext2D
+    buffer: ImageData;
+    helpers: TextureBase;
     constructor(public width: number, public height: number) {
         let c = document.createElement("canvas") as HTMLCanvasElement;
         c.width = width;
@@ -86,7 +86,7 @@ class DemolishedTextureGen {
         this.ctx.fillStyle = "#000000";
         this.ctx.fillRect(0, 0, this.width, this.height);
         this.buffer = this.ctx.getImageData(0, 0, this.width, this.height);
-        this.helpers = new ShaderBase();
+        this.helpers = new TextureBase();
     }
     static createTexture(width: number, height: number, fn: Function): string {
         let instance = new DemolishedTextureGen(width, height);
@@ -114,10 +114,31 @@ class DemolishedTextureGen {
                 buffer.data[idx + 1] = pixel[1];
                 buffer.data[idx + 2] = pixel[2];
             }
-        }
-        this.ctx.putImageData(buffer, 0, 0);
+        }    
+        this.ctx.putImageData(buffer, 0, 0);    
     }
     toBase64(): string {
         return this.ctx.canvas.toDataURL("image/png");
     }
 }
+export class ComplexTexture extends DemolishedTextureGen{
+        constructor(w:number,h:number){
+            super(w,h);
+        }
+        draw(fn: Function):Array<number>{
+            let res = fn.apply(
+                this.helpers,
+                [this.ctx, this.width, this,this.height]);
+            return res;
+        }
+        static createTexture(width: number, height: number, fn: Function): string {
+            let instance = new ComplexTexture(width, height);
+            instance.draw(fn);
+            return instance.toBase64();
+        }
+}
+
+
+
+
+
