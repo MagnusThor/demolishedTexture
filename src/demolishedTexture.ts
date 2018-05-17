@@ -121,7 +121,7 @@ export class DemolishedTextureGen {
         return this.ctx.canvas.toDataURL("image/png");
     }
 }
-export class ComplexTexture extends DemolishedTextureGen{
+export class DemolishedCanvasTextureGen extends DemolishedTextureGen{
         constructor(w:number,h:number){
             super(w,h);
         }
@@ -132,7 +132,7 @@ export class ComplexTexture extends DemolishedTextureGen{
             return res;
         }
         static createTexture(width: number, height: number, fn: Function): string {
-            let instance = new ComplexTexture(width, height);
+            let instance = new DemolishedCanvasTextureGen(width, height);
             instance.draw(fn);
             return instance.toBase64();
         }

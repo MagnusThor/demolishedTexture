@@ -125,20 +125,20 @@ var DemolishedTextureGen = (function () {
     return DemolishedTextureGen;
 }());
 exports.DemolishedTextureGen = DemolishedTextureGen;
-var ComplexTexture = (function (_super) {
-    __extends(ComplexTexture, _super);
-    function ComplexTexture(w, h) {
+var DemolishedCanvasTextureGen = (function (_super) {
+    __extends(DemolishedCanvasTextureGen, _super);
+    function DemolishedCanvasTextureGen(w, h) {
         return _super.call(this, w, h) || this;
     }
-    ComplexTexture.prototype.draw = function (fn) {
+    DemolishedCanvasTextureGen.prototype.draw = function (fn) {
         var res = fn.apply(this.helpers, [this.ctx, this.width, this, this.height]);
         return res;
     };
-    ComplexTexture.createTexture = function (width, height, fn) {
-        var instance = new ComplexTexture(width, height);
+    DemolishedCanvasTextureGen.createTexture = function (width, height, fn) {
+        var instance = new DemolishedCanvasTextureGen(width, height);
         instance.draw(fn);
         return instance.toBase64();
     };
-    return ComplexTexture;
+    return DemolishedCanvasTextureGen;
 }(DemolishedTextureGen));
-exports.ComplexTexture = ComplexTexture;
+exports.DemolishedCanvasTextureGen = DemolishedCanvasTextureGen;

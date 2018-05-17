@@ -3,8 +3,8 @@ module.exports = {
    fs: "empty"
   },
   watch: true,
-  entry: "./example/index.js",
+  entry: "./example/example.js",
   output:{
-    filename:"./example/example.js"
+    filename:"./example/build.js"
   }
 }

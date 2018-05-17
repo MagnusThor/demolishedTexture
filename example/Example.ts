@@ -1,11 +1,11 @@
-import { ComplexTexture, DemolishedTextureGen } from '../src/demolishedTexture';
+import { DemolishedTextureGen, DemolishedCanvasTextureGen } from '../src/demolishedTexture';
 
 
  class Example{
 
 
         constructor(){
-            var text = ComplexTexture.createTexture(512, 512, (ctx, w, h) => {
+            var text = DemolishedCanvasTextureGen.createTexture(512, 512, (ctx, w, h) => {
                 ctx.save();
                 ctx.fillStyle = "#fff";
                 let dx = w / 2;
@@ -29,12 +29,12 @@ import { ComplexTexture, DemolishedTextureGen } from '../src/demolishedTexture';
         
             document.querySelector("#textel").setAttribute("src", text);
         
-            var kaliset = DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+            var kaliset = DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
                 var t = this, m = Math;
                 var kset = function (p) {
                     var e = 0, l = e;
                     for (var i = 0; i < 13; i++) {
-                        var pl = l,
+                        var pl = l;
                             l = t.length(p);
                         var dot = t.dot(p, p);
                         p = t.func(p, function (v, i) {
@@ -53,7 +53,7 @@ import { ComplexTexture, DemolishedTextureGen } from '../src/demolishedTexture';
         
         
         
-            var noise = DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+            var noise = DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
                 var s,n,r,g,b;
                 x /= w; y /= h;
                 s = 20; n = this.noise(s * x, s * y, .8);
@@ -66,8 +66,8 @@ import { ComplexTexture, DemolishedTextureGen } from '../src/demolishedTexture';
             document.querySelector("#noise").setAttribute("src", noise);
         
         
-            var grass = DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
-                var sx,sy,r,g,b;
+            var grass = DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+                var sx,sy,r,g,b,n;
                 x /= w; y /= h; sx = 3; sy = 44;
                 n = this.noise(sx * x, sy * y, .1);
         
@@ -92,8 +92,5 @@ import { ComplexTexture, DemolishedTextureGen } from '../src/demolishedTexture';
 
 var demo;
 document.addEventListener("DOMContentLoaded", () => {
-
     demo = new Example();
-
-
 });

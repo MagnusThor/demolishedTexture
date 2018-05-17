@@ -1,4 +1,4 @@
-declare class TextureBase {
+export declare class TextureBase {
     perm: Array<number>;
     constructor();
     normalize(a: Array<number>): Array<number>;
@@ -14,7 +14,7 @@ declare class TextureBase {
     seed(n: number): Array<number>;
     noise(x: number, y: number, z: number): number;
 }
-declare class DemolishedTextureGen {
+export declare class DemolishedTextureGen {
     width: number;
     height: number;
     ctx: CanvasRenderingContext2D;
@@ -26,11 +26,8 @@ declare class DemolishedTextureGen {
     private render(fn);
     toBase64(): string;
 }
-declare class ComplexTexture extends DemolishedTextureGen {
+export declare class DemolishedCanvasTextureGen extends DemolishedTextureGen {
     constructor(w: number, h: number);
     draw(fn: Function): Array<number>;
     static createTexture(width: number, height: number, fn: Function): string;
 }
-export { ComplexTexture };
-export { TextureBase };
-export { DemolishedTextureGen };

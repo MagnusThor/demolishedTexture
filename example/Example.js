@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var demolishedTexture_1 = require("../src/demolishedTexture");
 var Example = (function () {
     function Example() {
-        var text = demolishedTexture_1.ComplexTexture.createTexture(512, 512, function (ctx, w, h) {
+        var text = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (ctx, w, h) {
             ctx.save();
             ctx.fillStyle = "#fff";
             var dx = w / 2;
@@ -23,12 +23,13 @@ var Example = (function () {
             return ctx;
         });
         document.querySelector("#textel").setAttribute("src", text);
-        var kaliset = demolishedTexture_1.DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+        var kaliset = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
             var t = this, m = Math;
             var kset = function (p) {
                 var e = 0, l = e;
                 for (var i = 0; i < 13; i++) {
-                    var pl = l, l = t.length(p);
+                    var pl = l;
+                    l = t.length(p);
                     var dot = t.dot(p, p);
                     p = t.func(p, function (v, i) {
                         return m.abs(v) / dot - 0.5;
@@ -41,7 +42,7 @@ var Example = (function () {
             return [Math.abs((k * 1.1) * 255), Math.abs((k * k * 1.3) * 255), Math.abs((k * k * k) * 255)];
         });
         document.querySelector("#kaliset").setAttribute("src", kaliset);
-        var noise = demolishedTexture_1.DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+        var noise = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
             var s, n, r, g, b;
             x /= w;
             y /= h;
@@ -51,8 +52,8 @@ var Example = (function () {
             return [r, g, b];
         });
         document.querySelector("#noise").setAttribute("src", noise);
-        var grass = demolishedTexture_1.DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
-            var sx, sy, r, g, b;
+        var grass = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+            var sx, sy, r, g, b, n;
             x /= w;
             y /= h;
             sx = 3;
