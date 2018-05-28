@@ -21,6 +21,9 @@ var TextureBase = (function () {
         }) : a = a;
         return a;
     };
+    TextureBase.prototype.fract = function (v) {
+        return v % 1;
+    };
     TextureBase.prototype.abs = function (a) {
         return a.map(function (v, i) { return Math.abs(v); });
     };

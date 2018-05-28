@@ -12,6 +12,9 @@ export class TextureBase {
         } ) : a = a;
         return a;         
     }
+    fract(v:number){
+        return v % 1;
+    }
     abs(a: Array<number>): Array<number> {
         return a.map((v, i) => { return Math.abs(v) });
     }

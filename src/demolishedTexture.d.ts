@@ -2,6 +2,7 @@ export declare class TextureBase {
     perm: Array<number>;
     constructor();
     normalize(a: Array<number>): Array<number>;
+    fract(v: number): number;
     abs(a: Array<number>): Array<number>;
     func(a: Array<number>, exp: Function): any[];
     toScale(v: any, w: any): number;
