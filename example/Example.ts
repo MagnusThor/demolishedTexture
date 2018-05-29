@@ -50,7 +50,7 @@ import { DemolishedTextureGen, DemolishedCanvasTextureGen } from '../src/demolis
             document.querySelector("#kaliset").setAttribute("src", kaliset);
         
             var noise = DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
-                var s,n,r,g,b;
+                var s,n,r,g,b,n;
                 x /= w; y /= h;
                 s = 20; n = this.noise(s * x, s * y, .8);
                 r = g = b = Math.round(255 * n);

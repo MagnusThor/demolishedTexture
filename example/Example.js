@@ -43,7 +43,7 @@ var Example = (function () {
         });
         document.querySelector("#kaliset").setAttribute("src", kaliset);
         var noise = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
-            var s, n, r, g, b;
+            var s, n, r, g, b, n;
             x /= w;
             y /= h;
             s = 20;
