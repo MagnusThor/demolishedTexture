@@ -1,8 +1,11 @@
 "use strict";
 var __extends = (this && this.__extends) || (function () {
-    var extendStatics = Object.setPrototypeOf ||
-        ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-        function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
     return function (d, b) {
         extendStatics(d, b);
         function __() { this.constructor = d; }
@@ -14,15 +17,15 @@ var TextureBase = (function () {
     function TextureBase() {
         this.perm = this.seed(255);
     }
+    TextureBase.prototype.vec = function (x, y, z, a) {
+        return [x, y, z, a].filter(function (v) { return v; });
+    };
     TextureBase.prototype.normalize = function (a) {
         var l = this.length(a);
         l != 0 ? a = this.func(a, function (v, i) {
             return v / l;
         }) : a = a;
         return a;
-    };
-    TextureBase.prototype.fract = function (v) {
-        return v % 1;
     };
     TextureBase.prototype.abs = function (a) {
         return a.map(function (v, i) { return Math.abs(v); });
@@ -79,8 +82,8 @@ var TextureBase = (function () {
     return TextureBase;
 }());
 exports.TextureBase = TextureBase;
-var DemolishedTextureGen = (function () {
-    function DemolishedTextureGen(width, height) {
+var TextureGen = (function () {
+    function TextureGen(width, height) {
         var _this = this;
         this.width = width;
         this.height = height;
@@ -100,12 +103,12 @@ var DemolishedTextureGen = (function () {
         this.buffer = this.ctx.getImageData(0, 0, this.width, this.height);
         this.helpers = new TextureBase();
     }
-    DemolishedTextureGen.createTexture = function (width, height, fn) {
-        var instance = new DemolishedTextureGen(width, height);
+    TextureGen.createTexture = function (width, height, fn) {
+        var instance = new TextureGen(width, height);
         instance.render(fn);
         return instance.toBase64();
     };
-    DemolishedTextureGen.prototype.render = function (fn) {
+    TextureGen.prototype.render = function (fn) {
         var buffer = this.buffer;
         var w = this.width, h = this.height;
         for (var idx, x = 0; x < w; x++) {
@@ -122,26 +125,26 @@ var DemolishedTextureGen = (function () {
         }
         this.ctx.putImageData(buffer, 0, 0);
     };
-    DemolishedTextureGen.prototype.toBase64 = function () {
+    TextureGen.prototype.toBase64 = function () {
         return this.ctx.canvas.toDataURL("image/png");
     };
-    return DemolishedTextureGen;
+    return TextureGen;
 }());
-exports.DemolishedTextureGen = DemolishedTextureGen;
-var DemolishedCanvasTextureGen = (function (_super) {
-    __extends(DemolishedCanvasTextureGen, _super);
-    function DemolishedCanvasTextureGen(w, h) {
+exports.TextureGen = TextureGen;
+var CanvasTextureGen = (function (_super) {
+    __extends(CanvasTextureGen, _super);
+    function CanvasTextureGen(x, y, w, h) {
         return _super.call(this, w, h) || this;
     }
-    DemolishedCanvasTextureGen.prototype.draw = function (fn) {
-        var res = fn.apply(this.helpers, [this.ctx, this.width, this, this.height]);
+    CanvasTextureGen.prototype.D = function (fn) {
+        var res = fn.apply(this.helpers, [this.ctx, 0, 0, this.width, this, this.height]);
         return res;
     };
-    DemolishedCanvasTextureGen.createTexture = function (width, height, fn) {
-        var instance = new DemolishedCanvasTextureGen(width, height);
-        instance.draw(fn);
+    CanvasTextureGen.createTexture = function (width, height, fn) {
+        var instance = new CanvasTextureGen(0, 0, width, height);
+        instance.D(fn);
         return instance.toBase64();
     };
-    return DemolishedCanvasTextureGen;
-}(DemolishedTextureGen));
-exports.DemolishedCanvasTextureGen = DemolishedCanvasTextureGen;
+    return CanvasTextureGen;
+}(TextureGen));
+exports.CanvasTextureGen = CanvasTextureGen;

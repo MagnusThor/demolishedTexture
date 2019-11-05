@@ -2,13 +2,15 @@
 
 Generate procedural textures in GLSL-Shader way or use plain vanilla Canvas API's to create your textures.
 
+At https://magnusthor.github.io/demolishedTexture/editor/ you can find a tiny editor that allows you to fiddle with demolishedTexture
+
 ## Install using NPM
 
     npm install demolishedtexture
 
 ## Documentation
     
-Brief documentation of demolishedTexture. More to come thou.
+Brief documentation of demolishedTexture. More to come thou.   
 
 ## Create a texture using TextureBase
 
@@ -119,3 +121,5 @@ In addition to the procedual textures you can use the HTML5 Canvas JavaScript AP
 # Links
 
 https://magnusthor.github.io/demolishedTexture/example/index.html 
+
+https://magnusthor.github.io/demolishedTexture/editor/

@@ -1,9 +1,9 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var demolishedTexture_1 = require("../src/demolishedTexture");
+var __1 = require("..");
 var Example = (function () {
     function Example() {
-        var text = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (ctx, w, h) {
+        var text = __1.CanvasTextureGen.createTexture(512, 512, function (ctx, w, h) {
             ctx.save();
             ctx.fillStyle = "#fff";
             var dx = w / 2;
@@ -23,7 +23,7 @@ var Example = (function () {
             return ctx;
         });
         document.querySelector("#textel").setAttribute("src", text);
-        var kaliset = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+        var kaliset = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
             var t = this, m = Math;
             var kset = function (p) {
                 var e = 0, l = e;
@@ -42,7 +42,7 @@ var Example = (function () {
             return [Math.abs((k * 1.1) * 255), Math.abs((k * k * 1.3) * 255), Math.abs((k * k * k) * 255)];
         });
         document.querySelector("#kaliset").setAttribute("src", kaliset);
-        var noise = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+        var noise = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
             var s, n, r, g, b, n;
             x /= w;
             y /= h;
@@ -52,7 +52,7 @@ var Example = (function () {
             return [r, g, b];
         });
         document.querySelector("#noise").setAttribute("src", noise);
-        var grass = demolishedTexture_1.DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+        var grass = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
             var sx, sy, r, g, b, n;
             x /= w;
             y /= h;

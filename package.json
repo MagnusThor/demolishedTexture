@@ -1,7 +1,7 @@
 {
   "name": "demolishedtexture",
-  "version": "1.0.2",
-  "description": "Procedual texture generator for Demolished and others.Renders base64 strings and/or binary.",
+  "version": "1.0.3",
+  "description": "Procedual texture generator for Demolished or what ever you want.Renders base64 strings and/or binary.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

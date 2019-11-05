@@ -1,11 +1,11 @@
-import { DemolishedTextureGen, DemolishedCanvasTextureGen } from '../src/demolishedTexture';
+import { CanvasTextureGen,TextureGen } from "..";
 
 
  class Example{
 
 
         constructor(){
-            var text = DemolishedCanvasTextureGen.createTexture(512, 512, (ctx, w, h) => {
+            var text = CanvasTextureGen.createTexture(512, 512, (ctx, w, h) => {
                 ctx.save();
                 ctx.fillStyle = "#fff";
                 let dx = w / 2;
@@ -29,7 +29,7 @@ import { DemolishedTextureGen, DemolishedCanvasTextureGen } from '../src/demolis
         
             document.querySelector("#textel").setAttribute("src", text);
         
-            var kaliset = DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+            var kaliset = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
                 var t = this, m = Math;
                 var kset = function (p) {
                     var e = 0, l = e;
@@ -49,7 +49,7 @@ import { DemolishedTextureGen, DemolishedCanvasTextureGen } from '../src/demolis
             });
             document.querySelector("#kaliset").setAttribute("src", kaliset);
         
-            var noise = DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+            var noise = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
                 var s,n,r,g,b,n;
                 x /= w; y /= h;
                 s = 20; n = this.noise(s * x, s * y, .8);
@@ -60,7 +60,7 @@ import { DemolishedTextureGen, DemolishedCanvasTextureGen } from '../src/demolis
             document.querySelector("#noise").setAttribute("src", noise);
         
         
-            var grass = DemolishedCanvasTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+            var grass = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
                 var sx,sy,r,g,b,n;
                 x /= w; y /= h; sx = 3; sy = 44;
                 n = this.noise(sx * x, sy * y, .1);

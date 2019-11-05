@@ -1,8 +1,8 @@
 export declare class TextureBase {
     perm: Array<number>;
     constructor();
+    vec(x: number, y: number, z: number, a: number): Array<number>;
     normalize(a: Array<number>): Array<number>;
-    fract(v: number): number;
     abs(a: Array<number>): Array<number>;
     func(a: Array<number>, exp: Function): any[];
     toScale(v: any, w: any): number;
@@ -15,7 +15,7 @@ export declare class TextureBase {
     seed(n: number): Array<number>;
     noise(x: number, y: number, z: number): number;
 }
-export declare class DemolishedTextureGen {
+export declare class TextureGen {
     width: number;
     height: number;
     ctx: CanvasRenderingContext2D;
@@ -24,11 +24,11 @@ export declare class DemolishedTextureGen {
     constructor(width: number, height: number);
     static createTexture(width: number, height: number, fn: Function): string;
     private coord;
-    private render(fn);
+    private render;
     toBase64(): string;
 }
-export declare class DemolishedCanvasTextureGen extends DemolishedTextureGen {
-    constructor(w: number, h: number);
-    draw(fn: Function): Array<number>;
+export declare class CanvasTextureGen extends TextureGen {
+    constructor(x: number, y: number, w: number, h: number);
+    private D;
     static createTexture(width: number, height: number, fn: Function): string;
 }

@@ -1,9 +1,10 @@
-
-
 export class TextureBase {
     perm: Array<number>;
     constructor() {
         this.perm = this.seed(255);
+    }
+    vec(x: number,y: number,z: number,a: number):Array<number>{
+        return [x,y,z,a].filter( (v) => {return v});
     }
     normalize(a: Array<number>): Array<number> {
         let l = this.length(a);
@@ -11,9 +12,6 @@ export class TextureBase {
             return v / l;
         } ) : a = a;
         return a;         
-    }
-    fract(v:number){
-        return v % 1;
     }
     abs(a: Array<number>): Array<number> {
         return a.map((v, i) => { return Math.abs(v) });
@@ -77,7 +75,7 @@ export class TextureBase {
                     t.grad(p[BB + 1], x - 1, y - 1, z - 1)))));
     }
 }
-export class DemolishedTextureGen {
+export class TextureGen {
     ctx: CanvasRenderingContext2D
     buffer: ImageData;
     helpers: TextureBase;
@@ -92,7 +90,7 @@ export class DemolishedTextureGen {
         this.helpers = new TextureBase();
     }
     static createTexture(width: number, height: number, fn: Function): string {
-        let instance = new DemolishedTextureGen(width, height);
+        let instance = new TextureGen(width, height);
         instance.render(fn);
         return instance.toBase64();
     }
@@ -124,23 +122,22 @@ export class DemolishedTextureGen {
         return this.ctx.canvas.toDataURL("image/png");
     }
 }
-export class DemolishedCanvasTextureGen extends DemolishedTextureGen{
-        constructor(w:number,h:number){
+export class CanvasTextureGen extends TextureGen{
+        constructor(x:number,y:number,w:number,h:number){
             super(w,h);
         }
-        draw(fn: Function):Array<number>{
+        private D(fn: Function):Array<number>{
             let res = fn.apply(
                 this.helpers,
-                [this.ctx, this.width, this,this.height]);
+                [this.ctx,0,0,this.width, this,this.height]);
             return res;
         }
         static createTexture(width: number, height: number, fn: Function): string {
-            let instance = new DemolishedCanvasTextureGen(width, height);
-            instance.draw(fn);
+            let instance = new CanvasTextureGen(0,0,width, height);
+            instance.D(fn);
             return instance.toBase64();
         }
 }
-
 
 
 
