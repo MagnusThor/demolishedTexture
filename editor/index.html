@@ -76,24 +76,26 @@
 
                 <label fo="texture-editor">Code</label>
                 <textarea id="texture-editor" name="texture-editor">
-
-        var t = this, m = Math;
-        var s = function (p) {
-            var e = 0, l = e;
-            for (var i = 0; i < 13; i++) {
-                var pl = l;
-                l = t.length(p);
-                var dot = t.dot(p, p);
-                p = t.func(p, function (v) {
-                    return m.abs(v) / dot - .5;
-                });
-                e += m.exp(-1 / m.abs(l - pl));
-            }
-            return e;
-        };
-        var k = s(v) * .18;
-        return [m.abs((k * 1.1) * 255), m.abs((k * k * 1.3) * 255), m.abs((k * k * k) * 255)];
-
+                    var t = this; var m = Math;
+                    var a = function(a,b){
+                        return m.abs((a * b) * 255);
+                    }            
+                    var s = function (p) {
+                    
+                        var e = 0, l = e;
+                        for (var i = 0; i < 13; i++) {
+                            var pl = l;
+                            l = t.length(p);
+                            var dot = t.dot(p, p);
+                            p = t.func(p, function (v) {
+                                return m.abs(v) / dot - .5;
+                            });
+                            e += m.exp(-1 / m.abs(l - pl));
+                        }
+                        return e;
+                    };
+                    var k = s(v) * .18;
+                    return [a(k , 1.1), a(k * k,  1.3), a(k * k * k,1.)];
                 </textarea>
 
                 <div class="alert alert-info my-5">
@@ -103,7 +105,7 @@
                 </div>
 
                 <div class="alert alert-info my-5">
-                    <strong>Canvas3D rendering</strong>
+                    <strong>Canvas2D rendering</strong>
                     (ctx:CanvasRenderingContext2D,w:number,h:number):Array =>
 
                 </div>

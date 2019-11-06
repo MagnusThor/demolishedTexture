@@ -24,7 +24,11 @@ var Example = (function () {
         });
         document.querySelector("#textel").setAttribute("src", text);
         var kaliset = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h, v) {
-            var t = this, m = Math;
+            var t = this;
+            var m = Math;
+            var a = function (a, b) {
+                return m.abs((a * b) * 255);
+            };
             var s = function (p) {
                 var e = 0, l = e;
                 for (var i = 0; i < 13; i++) {
@@ -39,7 +43,7 @@ var Example = (function () {
                 return e;
             };
             var k = s(v) * .18;
-            return [m.abs((k * 1.1) * 255), m.abs((k * k * 1.3) * 255), m.abs((k * k * k) * 255)];
+            return [a(k, 1.1), a(k * k, 1.3), a(k * k * k, 1.)];
         });
         document.querySelector("#kaliset").setAttribute("src", kaliset);
         var noise = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {

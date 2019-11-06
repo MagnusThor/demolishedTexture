@@ -27,6 +27,9 @@ var TextureBase = (function () {
         }) : a = a;
         return a;
     };
+    TextureBase.prototype.R = function (a, b) {
+        return Math.abs((a * b) * 255);
+    };
     TextureBase.prototype.abs = function (a) {
         return a.map(function (v, i) { return Math.abs(v); });
     };
@@ -46,6 +49,9 @@ var TextureBase = (function () {
     };
     TextureBase.prototype.fade = function (t) {
         return t * t * t * (t * (t * 6 - 15) + 10);
+    };
+    TextureBase.prototype.clamp = function (n, a, b) {
+        return n <= a ? a : n >= b ? b : n;
     };
     TextureBase.prototype.lerp = function (t, a, b) { return a + t * (b - a); };
     TextureBase.prototype.grad = function (hash, x, y, z) {

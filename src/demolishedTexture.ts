@@ -13,6 +13,9 @@ export class TextureBase {
         } ) : a = a;
         return a;         
     }
+     R(a:number,b:number):number{
+        return Math.abs((a * b) * 255);
+    }    
     abs(a: Array<number>): Array<number> {
         return a.map((v, i) => { return Math.abs(v) });
     }
@@ -31,6 +34,9 @@ export class TextureBase {
     }
     fade(t: number): number {
         return t * t * t * (t * (t * 6 - 15) + 10);
+    }
+    clamp(n:number, a:number, b:number):number {
+        return n <= a ? a : n >= b ? b : n;
     }
     lerp(t: number, a: number, b: number): number { return a + t * (b - a); }
     grad(hash: number, x: number, y: number, z: number): number {

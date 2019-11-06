@@ -2,25 +2,25 @@ import { CanvasTextureGen,TextureGen } from "..";
 
 
  class Example{
-
-
         constructor(){
             var text = CanvasTextureGen.createTexture(512, 512, (ctx, w, h) => {
+                
                 ctx.save();
-                ctx.fillStyle = "#fff";
-                let dx = w / 2;
-                let dy = h / 2;
-                ctx.strokeStyle = "#fff";
-                ctx.lineWidth = 10;
-                var sx = Math.random() * 2;
-                var sy = Math.random() * 2;
-                ctx.translate(sx, sy);
-                ctx.strokeRect(20, 20, 512 - 40, 512 - 40);
-                ctx.stroke();
-                ctx.font = "120px 'Arial'";
-                ctx.fillText("SUPER", 40, 220, w);
-                ctx.font = "bold 154px 'Arial'";
-                ctx.fillText("SARA", 35, 370, w);
+              
+                  ctx.fillStyle = "#fff";
+                    let dx = w / 2;
+                    let dy = h / 2;
+                    ctx.strokeStyle = "#fff";
+                    ctx.lineWidth = 10;
+                    var sx = Math.random() * 2;
+                    var sy = Math.random() * 2;
+                    ctx.translate(sx, sy);
+                    ctx.strokeRect(20, 20, 512 - 40, 512 - 40);
+                    ctx.stroke();
+                    ctx.font = "120px 'Arial'";
+                    ctx.fillText("SUPER", 40, 220, w);
+                    ctx.font = "bold 154px 'Arial'";
+                    ctx.fillText("SARA", 35, 370, w);
                 ctx.restore();
         
                 return ctx;
@@ -30,12 +30,16 @@ import { CanvasTextureGen,TextureGen } from "..";
             document.querySelector("#textel").setAttribute("src", text);
         
             var kaliset = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h,v) {
-                var t = this, m = Math;
+                var t = this; var m = Math;
+                var a = function(a,b){
+                    return m.abs((a * b) * 255);
+                }            
                 var s = function (p) {
+                
                     var e = 0, l = e;
                     for (var i = 0; i < 13; i++) {
                         var pl = l;
-                            l = t.length(p);
+                        l = t.length(p);
                         var dot = t.dot(p, p);
                         p = t.func(p, function (v) {
                             return m.abs(v) / dot - .5;
@@ -43,10 +47,12 @@ import { CanvasTextureGen,TextureGen } from "..";
                         e += m.exp(-1 / m.abs(l - pl));
                     }
                     return e;
-                }
-                var k = s(v) * .18;                
-                return [m.abs((k * 1.1) * 255), m.abs((k * k * 1.3) * 255), m.abs((k * k * k) * 255)];
+                };
+                var k = s(v) * .18;
+                return [a(k , 1.1), a(k * k,  1.3), a(k * k * k,1.)];
+        
             });
+
             document.querySelector("#kaliset").setAttribute("src", kaliset);
         
             var noise = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
