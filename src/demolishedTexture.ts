@@ -84,7 +84,7 @@ export class TextureGen {
         c.width = width;
         c.height = height;
         this.ctx = c.getContext("2d");
-        this.ctx.fillStyle = "#000000";
+        this.ctx.fillStyle = "#0";
         this.ctx.fillRect(0, 0, this.width, this.height);
         this.buffer = this.ctx.getImageData(0, 0, this.width, this.height);
         this.helpers = new TextureBase();
@@ -94,23 +94,26 @@ export class TextureGen {
         instance.render(fn);
         return instance.toBase64();
     }
-    private coord = (pixel: Array<number>, x: number, y: number, w: number, h: number, fn: Function): Array<number> => {
+    private frag = (pixel: Array<number>, x: number, y: number, w: number, h: number,v:Array<number>, fn: Function): Array<number> => {
         let r = pixel[0]; var g = pixel[1]; var b = pixel[2];
+        let t = this.helpers;        
         var res = fn.apply(
-            this.helpers,
-            [[r, b, g], x, y, w, h]);
+            t,
+            [[r, b, g], x, y, w, h,v]);
         return res;
     };
     private render(fn: Function) {
         let buffer = this.buffer;
         let w = this.width, h = this.height;
+        let s = this.helpers.toScale;
         for (var idx, x = 0; x < w; x++) {
             for (var y = 0; y < h; y++) {
                 idx = (x + y * w) * 4;
                 var r = buffer.data[idx + 0];
                 var g = buffer.data[idx + 1];
                 var b = buffer.data[idx + 2];
-                var pixel = this.coord([r, g, b], x, y, w, h, fn);
+                let v = [s(x, w), s(y, w), 0];
+                var pixel = this.frag([r, g, b], x, y, w, h,v, fn);
                 buffer.data[idx + 0] = pixel[0];
                 buffer.data[idx + 1] = pixel[1];
                 buffer.data[idx + 2] = pixel[2];

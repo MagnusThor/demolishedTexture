@@ -23,23 +23,23 @@ var Example = (function () {
             return ctx;
         });
         document.querySelector("#textel").setAttribute("src", text);
-        var kaliset = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+        var kaliset = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h, v) {
             var t = this, m = Math;
-            var kset = function (p) {
+            var s = function (p) {
                 var e = 0, l = e;
                 for (var i = 0; i < 13; i++) {
                     var pl = l;
                     l = t.length(p);
                     var dot = t.dot(p, p);
-                    p = t.func(p, function (v, i) {
-                        return m.abs(v) / dot - 0.5;
+                    p = t.func(p, function (v) {
+                        return m.abs(v) / dot - .5;
                     });
                     e += m.exp(-1 / m.abs(l - pl));
                 }
                 return e;
             };
-            var k = kset([t.toScale(x, w), t.toScale(y, w), 0]) * .18;
-            return [Math.abs((k * 1.1) * 255), Math.abs((k * k * 1.3) * 255), Math.abs((k * k * k) * 255)];
+            var k = s(v) * .18;
+            return [m.abs((k * 1.1) * 255), m.abs((k * k * 1.3) * 255), m.abs((k * k * k) * 255)];
         });
         document.querySelector("#kaliset").setAttribute("src", kaliset);
         var noise = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {

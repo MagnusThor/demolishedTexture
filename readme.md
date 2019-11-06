@@ -16,17 +16,18 @@ Brief documentation of demolishedTexture. More to come thou.
 
 Like in a "shader" the generator calles the "callback" function (fn) provided to the generator by createTexture(w,h,fn) or render(fn) for each pixel (x,y) of your texture. The callback *fn* must have the following signature (pixel, x, y, w, h) where the arguments are as follows, it must return an Array of RGB(a)
 
-    fn(pixel:Array, x:number, y:numer, w:number, h:number):Array<number> 
+    fn(pixel:Array, x:number, y:numer, w:number, h:number,v:Array):Array<number> 
 
-**pixel** is red, green and blue channel for the current pixel (x,y)
+**pixel** is red, green and blue RGB channel for the current pixel (x,y)
 **x,y** is the current coordinate of the pixel.
 **w,h** is the with and hight of the texture. 
+**v** Vector coorinate i.e -1,-1,0 for the current pixel
  
  The function (fn) is inherited (bound) the the TextureBase descibed above, there you can find functions such as PerlinNoise ( noise)  
  
 ### Example ( Javascript )
 ****
-    var base64 = DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
+    var base64 = DemolishedTextureGen.createTexture(512, 512, function (pixel, x, y, w, h,v) {
         
         var n = this.noise(x / 45, y / 120, .89);
         n = Math.cos(n * 15);
@@ -44,7 +45,6 @@ Like in a "shader" the generator calles the "callback" function (fn) provided to
 In addition to the procedual textures you can use the HTML5 Canvas JavaScript API's to render textures / images. 
 
     fn(ctx,w,h):Array<number>
-
 
 **ctx** is the CanvasRenderingContext2D to use for drawinig operations.
 **w** is the width of the texture.

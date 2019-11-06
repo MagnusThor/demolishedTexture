@@ -25,11 +25,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const padding = (base64String.match(/(=*)$/) || [])[1].length;
         return 4 * Math.ceil((base64String.length / 3)) - padding;
     }
-    const createSrc = (context: string, frag: string): string => {
+    const createSrc = (context: string, frag: string,size): string => {
+        let mi = context == "GeneratorPixel" ? "pixel, x, y, w, h,v" : "ctx,x,y,w,h"
         let source = `
-        ${context}(512, 512, function(pixel, x, y, w, h) {
-                ${frag}
-            });`;
+        ${context}(${size},${size},function(${mi}) {
+            ${frag}
+        });`;
         return source;
     };
 
@@ -48,9 +49,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const update = () => {
         showError("");
-        let context = sel("select").value;
+        let context = sel("select#sel-context").value;
+        let size = sel("select#texture-size").value;
+
         const frag = editor.getValue();
-        let source = createSrc(context, frag);
+        let source = createSrc(context, frag,size);
         let p = eval(source);
         let el = sel("img.result");
 

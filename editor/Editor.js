@@ -22,8 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
         var padding = (base64String.match(/(=*)$/) || [])[1].length;
         return 4 * Math.ceil((base64String.length / 3)) - padding;
     };
-    var createSrc = function (context, frag) {
-        var source = "\n        " + context + "(512, 512, function(pixel, x, y, w, h) {\n                " + frag + "\n            });";
+    var createSrc = function (context, frag, size) {
+        var mi = context == "GeneratorPixel" ? "pixel, x, y, w, h,v" : "ctx,x,y,w,h";
+        var source = "\n        " + context + "(" + size + "," + size + ",function(" + mi + ") {\n            " + frag + "\n        });";
         return source;
     };
     var editor = CodeMirror.fromTextArea(document.getElementById("texture-editor"), {
@@ -37,9 +38,10 @@ document.addEventListener("DOMContentLoaded", function () {
     var dt = performance.now() / 1000;
     var update = function () {
         showError("");
-        var context = sel("select").value;
+        var context = sel("select#sel-context").value;
+        var size = sel("select#texture-size").value;
         var frag = editor.getValue();
-        var source = createSrc(context, frag);
+        var source = createSrc(context, frag, size);
         var p = eval(source);
         var el = sel("img.result");
         sel("#size").textContent = formatBytes(sizeOfBase64String(p), 2);

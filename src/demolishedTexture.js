@@ -87,18 +87,19 @@ var TextureGen = (function () {
         var _this = this;
         this.width = width;
         this.height = height;
-        this.coord = function (pixel, x, y, w, h, fn) {
+        this.frag = function (pixel, x, y, w, h, v, fn) {
             var r = pixel[0];
             var g = pixel[1];
             var b = pixel[2];
-            var res = fn.apply(_this.helpers, [[r, b, g], x, y, w, h]);
+            var t = _this.helpers;
+            var res = fn.apply(t, [[r, b, g], x, y, w, h, v]);
             return res;
         };
         var c = document.createElement("canvas");
         c.width = width;
         c.height = height;
         this.ctx = c.getContext("2d");
-        this.ctx.fillStyle = "#000000";
+        this.ctx.fillStyle = "#0";
         this.ctx.fillRect(0, 0, this.width, this.height);
         this.buffer = this.ctx.getImageData(0, 0, this.width, this.height);
         this.helpers = new TextureBase();
@@ -111,13 +112,15 @@ var TextureGen = (function () {
     TextureGen.prototype.render = function (fn) {
         var buffer = this.buffer;
         var w = this.width, h = this.height;
+        var s = this.helpers.toScale;
         for (var idx, x = 0; x < w; x++) {
             for (var y = 0; y < h; y++) {
                 idx = (x + y * w) * 4;
                 var r = buffer.data[idx + 0];
                 var g = buffer.data[idx + 1];
                 var b = buffer.data[idx + 2];
-                var pixel = this.coord([r, g, b], x, y, w, h, fn);
+                var v = [s(x, w), s(y, w), 0];
+                var pixel = this.frag([r, g, b], x, y, w, h, v, fn);
                 buffer.data[idx + 0] = pixel[0];
                 buffer.data[idx + 1] = pixel[1];
                 buffer.data[idx + 2] = pixel[2];
