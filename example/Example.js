@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var __1 = require("..");
 var Example = (function () {
     function Example() {
-        var text = __1.CanvasTextureGen.createTexture(512, 512, function (ctx, w, h) {
+        var text = __1.CanvasTextureGen.createTexture(512, 512, function (ctx, x, y, w, h) {
             ctx.save();
             ctx.fillStyle = "#fff";
             var dx = w / 2;
@@ -17,12 +17,12 @@ var Example = (function () {
             ctx.stroke();
             ctx.font = "120px 'Arial'";
             ctx.fillText("SUPER", 40, 220, w);
-            ctx.font = "bold 154px 'Arial'";
-            ctx.fillText("SARA", 35, 370, w);
+            ctx.font = "bold 120px 'Arial'";
+            ctx.fillText("HANNA", 40, 370, w);
             ctx.restore();
             return ctx;
         });
-        document.querySelector("#textel").setAttribute("src", text);
+        document.querySelector("#textel").setAttribute("src", text.toBase64());
         var kaliset = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h, v) {
             var t = this;
             var m = Math;
@@ -45,7 +45,7 @@ var Example = (function () {
             var k = s(v) * .18;
             return [a(k, 1.1), a(k * k, 1.3), a(k * k * k, 1.)];
         });
-        document.querySelector("#kaliset").setAttribute("src", kaliset);
+        document.querySelector("#kaliset").setAttribute("src", kaliset.toBase64());
         var noise = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
             var s, n, r, g, b, n;
             x /= w;
@@ -55,7 +55,7 @@ var Example = (function () {
             r = g = b = Math.round(255 * n);
             return [r, g, b];
         });
-        document.querySelector("#noise").setAttribute("src", noise);
+        document.querySelector("#noise").setAttribute("src", noise.toBase64());
         var grass = __1.TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
             var sx, sy, r, g, b, n;
             x /= w;
@@ -70,7 +70,7 @@ var Example = (function () {
             g = y * 255;
             return [r, g, b];
         });
-        document.querySelector("#grass").setAttribute("src", grass);
+        document.querySelector("#grass").setAttribute("src", grass.toBase64());
     }
     return Example;
 }());

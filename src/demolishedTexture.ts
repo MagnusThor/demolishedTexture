@@ -95,10 +95,10 @@ export class TextureGen {
         this.buffer = this.ctx.getImageData(0, 0, this.width, this.height);
         this.helpers = new TextureBase();
     }
-    static createTexture(width: number, height: number, fn: Function): string {
+    static createTexture(width: number, height: number, fn: Function): TextureGen {
         let instance = new TextureGen(width, height);
         instance.render(fn);
-        return instance.toBase64();
+        return instance;//.toBase64();
     }
     private frag = (pixel: Array<number>, x: number, y: number, w: number, h: number,v:Array<number>, fn: Function): Array<number> => {
         let r = pixel[0]; var g = pixel[1]; var b = pixel[2];
@@ -130,6 +130,9 @@ export class TextureGen {
     toBase64(): string {
         return this.ctx.canvas.toDataURL("image/png");
     }
+    toBlob(cb:any):void{
+        this.ctx.canvas.toBlob(cb,"image/png");
+    }
 }
 export class CanvasTextureGen extends TextureGen{
         constructor(x:number,y:number,w:number,h:number){
@@ -141,10 +144,10 @@ export class CanvasTextureGen extends TextureGen{
                 [this.ctx,0,0,this.width, this,this.height]);
             return res;
         }
-        static createTexture(width: number, height: number, fn: Function): string {
+        static createTexture(width: number, height: number, fn: Function): CanvasTextureGen {
             let instance = new CanvasTextureGen(0,0,width, height);
             instance.D(fn);
-            return instance.toBase64();
+            return instance;//.toBase64();
         }
 }
 

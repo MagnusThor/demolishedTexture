@@ -4,6 +4,7 @@ var demolishedTexture_1 = require("../src/demolishedTexture");
 window["GeneratorPixel"] = demolishedTexture_1.TextureGen.createTexture;
 window["Generator2D"] = demolishedTexture_1.CanvasTextureGen.createTexture;
 document.addEventListener("DOMContentLoaded", function () {
+    var instance;
     var sel = document.querySelector.bind(document);
     var showError = function (message) {
         sel(".error pre").textContent = message;
@@ -21,6 +22,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return 0;
         var padding = (base64String.match(/(=*)$/) || [])[1].length;
         return 4 * Math.ceil((base64String.length / 3)) - padding;
+    };
+    var toFile = function (context, fn) {
+        instance.toBlob(fn);
     };
     var createSrc = function (context, frag, size) {
         var mi = context == "GeneratorPixel" ? "pixel, x, y, w, h,v" : "ctx,x,y,w,h";
@@ -42,12 +46,24 @@ document.addEventListener("DOMContentLoaded", function () {
         var size = sel("select#texture-size").value;
         var frag = editor.getValue();
         var source = createSrc(context, frag, size);
-        var p = eval(source);
+        instance = eval(source);
+        var base64 = instance.toBase64();
         var el = sel("img.result");
-        sel("#size").textContent = formatBytes(sizeOfBase64String(p), 2);
+        sel("#size").textContent = formatBytes(sizeOfBase64String(base64), 2);
         sel("#size-gen").textContent = formatBytes(source.length + 1280, 2);
-        el.setAttribute("src", p);
+        el.setAttribute("src", base64);
     };
+    sel("#btn-export").addEventListener("click", function () {
+        var context = sel("select#sel-context").value;
+        var download = sel("#download");
+        download.classList.remove("d-none");
+        download.textContent = "Wait...";
+        toFile(context, function (b) {
+            var url = URL.createObjectURL(b);
+            download.setAttribute("href", url);
+            download.textContent = "result.png";
+        });
+    });
     editor.on("change", function (e) {
         var bounce = -(dt - (performance.now() / 1000));
         if (bounce > 0.5)

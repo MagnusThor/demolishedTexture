@@ -1,9 +1,13 @@
 import { CanvasTextureGen,TextureGen } from "..";
 
 
+
+
+
+
  class Example{
         constructor(){
-            var text = CanvasTextureGen.createTexture(512, 512, (ctx, w, h) => {
+            var text = CanvasTextureGen.createTexture(512, 512, (ctx,x,y,w, h) => {
                 
                 ctx.save();
               
@@ -19,15 +23,15 @@ import { CanvasTextureGen,TextureGen } from "..";
                     ctx.stroke();
                     ctx.font = "120px 'Arial'";
                     ctx.fillText("SUPER", 40, 220, w);
-                    ctx.font = "bold 154px 'Arial'";
-                    ctx.fillText("SARA", 35, 370, w);
+                    ctx.font = "bold 120px 'Arial'";
+                    ctx.fillText("HANNA", 40, 370, w);
                 ctx.restore();
         
                 return ctx;
         
             });
         
-            document.querySelector("#textel").setAttribute("src", text);
+            document.querySelector("#textel").setAttribute("src", text.toBase64());
         
             var kaliset = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h,v) {
                 var t = this; var m = Math;
@@ -53,7 +57,7 @@ import { CanvasTextureGen,TextureGen } from "..";
         
             });
 
-            document.querySelector("#kaliset").setAttribute("src", kaliset);
+            document.querySelector("#kaliset").setAttribute("src", kaliset.toBase64());
         
             var noise = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
                 var s,n,r,g,b,n;
@@ -63,7 +67,7 @@ import { CanvasTextureGen,TextureGen } from "..";
                 return [r, g, b]
             });
         
-            document.querySelector("#noise").setAttribute("src", noise);
+            document.querySelector("#noise").setAttribute("src", noise.toBase64());
         
         
             var grass = TextureGen.createTexture(512, 512, function (pixel, x, y, w, h) {
@@ -79,7 +83,7 @@ import { CanvasTextureGen,TextureGen } from "..";
         
             });
         
-            document.querySelector("#grass").setAttribute("src", grass);
+            document.querySelector("#grass").setAttribute("src", grass.toBase64());
         
         }
 }

@@ -3,9 +3,13 @@ import { TextureGen, CanvasTextureGen } from '../src/demolishedTexture';
 window["GeneratorPixel"] = TextureGen.createTexture;
 window["Generator2D"] = CanvasTextureGen.createTexture;
 
+
 declare var CodeMirror: any;
 
 document.addEventListener("DOMContentLoaded", () => {
+
+    let instance:any;
+
     let sel = document.querySelector.bind(document);
 
     const showError = (message) => {
@@ -24,6 +28,11 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!base64String) return 0;
         const padding = (base64String.match(/(=*)$/) || [])[1].length;
         return 4 * Math.ceil((base64String.length / 3)) - padding;
+    }
+    const toFile = (context: string,fn: Function) => {   
+
+        instance.toBlob(fn);
+
     }
     const createSrc = (context: string, frag: string,size): string => {
         let mi = context == "GeneratorPixel" ? "pixel, x, y, w, h,v" : "ctx,x,y,w,h"
@@ -54,15 +63,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const frag = editor.getValue();
         let source = createSrc(context, frag,size);
-        let p = eval(source);
+        instance = eval(source);
+
+
+        let base64 = instance.toBase64();
+        
+        
         let el = sel("img.result");
 
-        sel("#size").textContent = formatBytes(sizeOfBase64String(p), 2);
+        sel("#size").textContent = formatBytes(sizeOfBase64String(base64), 2);
         sel("#size-gen").textContent = formatBytes(source.length + 1280, 2)
 
-        el.setAttribute("src", p);
+        el.setAttribute("src", base64);
     }
 
+    sel("#btn-export").addEventListener("click", () => {
+        let context = sel("select#sel-context").value;
+        let download = sel("#download");
+        download.classList.remove("d-none");
+        download.textContent = "Wait..."
+
+        toFile(context,(b:any) => {
+                let url = URL.createObjectURL(b);
+                download.setAttribute("href",url);
+                download.textContent = "result.png";
+        });
+
+    });
 
     editor.on("change", function (e: any) {
 

@@ -113,7 +113,7 @@ var TextureGen = (function () {
     TextureGen.createTexture = function (width, height, fn) {
         var instance = new TextureGen(width, height);
         instance.render(fn);
-        return instance.toBase64();
+        return instance;
     };
     TextureGen.prototype.render = function (fn) {
         var buffer = this.buffer;
@@ -137,6 +137,9 @@ var TextureGen = (function () {
     TextureGen.prototype.toBase64 = function () {
         return this.ctx.canvas.toDataURL("image/png");
     };
+    TextureGen.prototype.toBlob = function (cb) {
+        this.ctx.canvas.toBlob(cb, "image/png");
+    };
     return TextureGen;
 }());
 exports.TextureGen = TextureGen;
@@ -152,7 +155,7 @@ var CanvasTextureGen = (function (_super) {
     CanvasTextureGen.createTexture = function (width, height, fn) {
         var instance = new CanvasTextureGen(0, 0, width, height);
         instance.D(fn);
-        return instance.toBase64();
+        return instance;
     };
     return CanvasTextureGen;
 }(TextureGen));
